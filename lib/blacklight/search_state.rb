@@ -51,6 +51,8 @@ module Blacklight
       params
     end
 
+    delegate :inspect, to: :to_hash
+
     def to_hash
       @params.deep_dup
     end

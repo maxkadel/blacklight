@@ -18,12 +18,12 @@ module Blacklight
     # @param [Blacklight::Config] blacklight_config
     # @param [ApplicationController] controller used for the routing helpers
     def initialize(params, blacklight_config, controller = nil)
-      @params = self.class.normalize_params(params)
       @blacklight_config = blacklight_config
+      @params = normalize_params(params)
       @controller = controller
     end
 
-    def self.normalize_params(untrusted_params = {})
+    def normalize_params(untrusted_params = {})
       params = untrusted_params
 
       if params.respond_to?(:to_unsafe_h)
@@ -189,11 +189,11 @@ module Blacklight
       params[facet_request_keys[:prefix]]
     end
 
-    def self.facet_params_need_normalization(facet_params)
+    def facet_params_need_normalization(facet_params)
       facet_params.is_a?(Hash) && facet_params.values.any? { |x| x.is_a?(Hash) }
     end
 
-    def self.normalize_facet_params(facet_params)
+    def normalize_facet_params(facet_params)
       facet_params.transform_values do |value|
         value.is_a?(Hash) ? value.values : value
       end

@@ -51,7 +51,12 @@ module Blacklight
 
     # A container for partials rendered using the view config partials configuration. Its use is discouraged, but necessary until
     # the ecosystem fully adopts view components.
-    renders_many :partials
+    renders_many :partials, (lambda do |partial = nil, &block|
+      partial_buffer = []
+      partial_buffer << view_context.render_document_partial(@document, partial, component: self, document_counter: @document_counter) if partial
+      partial_buffer << block.call if block
+      view_context.safe_join(partial_buffer, "\n")
+    end)
 
     # Backwards compatibility
     renders_one :actions
@@ -75,8 +80,8 @@ module Blacklight
         raise ArgumentError, 'missing keyword: :document or :presenter'
       end
 
-      @document = document || presenter&.document
-      @presenter = presenter
+      @document = document
+      @presenter = presenter.respond_to?(:call) ? presenter.call(document) : presenter
 
       @component = component
       @title_component = title_component
@@ -85,7 +90,7 @@ module Blacklight
 
       @document_counter = document_counter
       @counter = counter
-      @counter ||= document_counter + 1 + counter_offset if document_counter.present?
+      @counter ||= document_counter + counter_offset if document_counter.present?
 
       @show = show
     end

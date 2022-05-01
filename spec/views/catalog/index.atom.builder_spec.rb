@@ -93,7 +93,7 @@ RSpec.describe "catalog/index" do
 
     context 'with a custom template' do
       before do
-        my_template = Class.new(ViewComponent::Base) do
+        my_template = Class.new(Blacklight::Component) do
           def call
             'whatever content'
           end

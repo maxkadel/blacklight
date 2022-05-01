@@ -95,7 +95,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
       let(:attr) { { document_counter: 10, counter_offset: 100 } }
 
       it 'renders a counter with the title' do
-        expect(rendered).to have_selector 'header', text: '111. Title'
+        expect(rendered).to have_selector 'header', text: '110. Title'
       end
     end
 
@@ -152,9 +152,14 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     expect(rendered).not_to have_selector 'dt', text: 'ISBN:'
   end
 
-  it 'renders partials' do
-    component.partial { 'Partials' }
-    expect(rendered).to have_content 'Partials'
+  context 'with partial slot content' do
+    let(:render) do
+      component.render_in(view_context) { |c| c.partial { 'Partials' } }
+    end
+
+    it 'renders partials' do
+      expect(rendered).to have_content 'Partials'
+    end
   end
 
   context 'with before_title' do

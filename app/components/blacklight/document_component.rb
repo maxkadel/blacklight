@@ -63,7 +63,7 @@ module Blacklight
 
     # rubocop:disable Metrics/ParameterLists
     # @param document [Blacklight::Document]
-    # @param presenter [Blacklight::DocumentPresenter]
+    # @param presenter [Blacklight::DocumentPresenter, Proc] if Proc, must accept a single param for document
     # @param id [String] HTML id for the root element
     # @param classes [Array, String] additional HTML classes for the root element
     # @param component [Symbol, String] HTML tag type to use for the root element
@@ -80,8 +80,8 @@ module Blacklight
         raise ArgumentError, 'missing keyword: :document or :presenter'
       end
 
-      @document = document
       @presenter = presenter.respond_to?(:call) ? presenter.call(document) : presenter
+      @document = document || presenter.document
 
       @component = component
       @title_component = title_component

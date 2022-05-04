@@ -1,7 +1,7 @@
 <% # container for all documents in index list view -%>
 <% view_config = local_assigns[:view_config] || blacklight_config&.view_config(document_index_view_type) %>
 <div id="documents" class="documents-<%= view_config&.key || document_index_view_type %>">
-  <% view_config.document_component.with_collection(documents, counter_offset: (@response&.start || 0), presenter: Proc.new { |doc| document_presenter(doc) }).each do |component| %>
+  <% view_config.document_component.with_collection(documents, counter_offset: (@response&.start || 0)).each do |component| %>
     <%= render(component) do |c| %>
       <% view_config.partials.each do |partial| %>
         <%- c.partial(partial) %>

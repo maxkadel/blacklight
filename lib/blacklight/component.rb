@@ -8,10 +8,6 @@ module Blacklight
         @__vc_compiler ||= EngineCompiler.new(self)
       end
       # rubocop:enable Naming/MemoizedInstanceVariableName
-
-      def with_individual(object, **kwargs)
-        new(**kwargs.merge(collection_parameter => object))
-      end
     end
 
     class EngineCompiler < ::ViewComponent::Compiler

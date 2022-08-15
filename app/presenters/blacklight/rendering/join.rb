@@ -5,7 +5,9 @@ module Blacklight
     class Join < AbstractStep
       def render
         options = config.separator_options || {}
-        if !html?
+        if values.one? || values.none?
+          next_step(values.first)
+        elsif !html?
           next_step(values.join("\n"))
         else
           next_step(values.map { |x| html_escape(x) }.to_sentence(options).html_safe)

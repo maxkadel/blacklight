@@ -160,7 +160,9 @@ module Blacklight
       ViewConfig,
       default: { top_level_config: :index },
       show: { top_level_config: :show },
-      citation: { parent_config: :show }
+      citation: { parent_config: :show },
+      email_action: { top_level_config: :email },
+      sms_action: { top_level_config: :sms }
     )
 
     # @!attribute sms

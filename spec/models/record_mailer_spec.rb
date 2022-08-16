@@ -11,8 +11,6 @@ RSpec.describe RecordMailer do
 
   before do
     allow(described_class).to receive(:default).and_return(from: 'no-reply@projectblacklight.org')
-    SolrDocument.use_extension(Blacklight::Document::Email)
-    SolrDocument.use_extension(Blacklight::Document::Sms)
     @documents = [document]
   end
 

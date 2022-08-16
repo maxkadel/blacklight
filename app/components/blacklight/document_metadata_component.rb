@@ -8,6 +8,7 @@ module Blacklight
     with_collection_parameter :fields
 
     # @param fields [Enumerable<Blacklight::FieldPresenter>] Document field presenters
+    # rubocop:disable Metrics/ParameterLists
     def initialize(fields: [], tag: 'dl', classes: %w[document-metadata dl-invert row], show: false, view_type: nil, field_layout: nil, **component_args)
       @fields = fields
       @tag = tag
@@ -17,6 +18,7 @@ module Blacklight
       @field_layout = field_layout
       @component_args = component_args
     end
+    # rubocop:enable Metrics/ParameterLists
 
     def before_render
       return unless fields

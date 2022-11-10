@@ -2,8 +2,9 @@
 
 module Blacklight
   class HeaderComponent < Blacklight::Component
-    renders_one :top_bar, lambda { |component: Blacklight::TopNavbarComponent|
-      component.new(blacklight_config: blacklight_config)
+    # Kwargs may include (:logo_link_text)
+    renders_one :top_bar, lambda { |component: Blacklight::TopNavbarComponent, **kwargs|
+      component.new(blacklight_config: blacklight_config, **kwargs)
     }
 
     renders_one :search_bar, lambda { |component: Blacklight::SearchNavbarComponent|

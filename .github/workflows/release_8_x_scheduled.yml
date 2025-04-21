@@ -8,6 +8,7 @@
 name: release-8.x scheduled
 
 on:
+  pull_request:
   schedule:
     # Weekly at 9:35 on Friday
     # Somewhat weird timing so that it isn't delayed too much
@@ -21,23 +22,22 @@ jobs:
     uses: maxkadel/actions/.github/workflows/test.yml@main
     with:
       ref: release-8.x
-      ruby: '["3.3"]'
   docker_build:
     uses: maxkadel/actions/.github/workflows/build.yml@main
     with:
       ref: release-8.x
-  report:
-    runs-on: ubuntu-latest
-    if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
-    needs: [lint, test, docker_build]
-    steps:
-      - name: Report on failure of any dependent job
-        env:
-          NEEDS: ${{ toJSON(needs) }}
-        uses: slackapi/slack-github-action@v2.0.0
-        with:
-          method: chat.postMessage
-          token: ${{ secrets.SLACK_BOT_TOKEN }}
-          payload: |
-            channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            text: "The weekly CI run of the release-8.x branch has failed"
+  # report:
+  #   runs-on: ubuntu-latest
+  #   if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
+  #   needs: [lint, test, docker_build]
+  #   steps:
+  #     - name: Report on failure of any dependent job
+  #       env:
+  #         NEEDS: ${{ toJSON(needs) }}
+  #       uses: slackapi/slack-github-action@v2.0.0
+  #       with:
+  #         method: chat.postMessage
+  #         token: ${{ secrets.SLACK_BOT_TOKEN }}
+  #         payload: |
+  #           channel: ${{ secrets.SLACK_CHANNEL_ID }}
+  #           text: "The weekly CI run of the release-8.x branch has failed"

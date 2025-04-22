@@ -17,15 +17,15 @@ jobs:
   lint:
     uses: maxkadel/actions/.github/workflows/lint.yml@main
     with:
-      ref: release-8.x
+      ref: add_matrix_dot_json
   test:
     uses: maxkadel/actions/.github/workflows/test.yml@main
     with:
-      ref: release-8.x
+      ref: add_matrix_dot_json
   docker_build:
     uses: maxkadel/actions/.github/workflows/build.yml@main
     with:
-      ref: release-8.x
+      ref: add_matrix_dot_json
   # report:
   #   runs-on: ubuntu-latest
   #   if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
